@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "ASubst": {
+      "commandName": "Project",
+      "commandLineArgs": "-t k"
+    }
+  }
+}
