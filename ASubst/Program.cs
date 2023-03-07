@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
-using System.Threading.Tasks;
 
 namespace ASubst
 {
-    class Program
+    internal class Program
     {
         private static void Main(string[] args)
         {
             try
             {
+                if (args.Length > 0 && args[0] == "--help")
+                {
+                    PrintUsageAndExit();
+                }
                 var optionsArgs = args.Where(x => x[0] == '-').SelectMany(x => x.Skip(1)).ToHashSet();
                 var normalArgs = args.Where(x => x[0] != '-').ToList();
 
@@ -58,6 +57,21 @@ namespace ASubst
                 var progname = Path.GetFileNameWithoutExtension(fullname);
                 Console.Error.WriteLine($"{progname} Error: {ex.Message}");
             }
+        }
+
+        private static void PrintUsageAndExit()
+        {
+            Console.WriteLine("asubst - reimplementation of the subst command for a modern bash/zsh environment.");
+            Console.WriteLine("Usage:");
+            Console.WriteLine("    asubst [options] [drive]");
+            Console.WriteLine();
+            Console.WriteLine("Options:");
+            Console.WriteLine("   -d delete drive");
+            Console.WriteLine("   -t print the drive for the current directory if there is one");
+            Console.WriteLine();
+            Console.WriteLine("Without any options, asubst takes a single parameter (a drive letter) and maps the");
+            Console.WriteLine("drive to the current directory.");
+            Environment.Exit(-1);
         }
     }
 }
